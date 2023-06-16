@@ -20,8 +20,8 @@ public class DivisionNumero {
         
         if (numB==0) {
             throw new ArithmeticException("Intenta dividir por cero");
-        } else {
-            
+        } else if (numA==0){
+            throw new ArithmeticException("El numero es Cero");
         }
         
         return numA / numB;

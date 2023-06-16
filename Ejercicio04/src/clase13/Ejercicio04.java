@@ -35,7 +35,7 @@ public class Ejercicio04 {
         } catch (NumberFormatException e) {
             System.out.println("Datos incorrectos: " + e.getMessage());
         } catch (InputMismatchException e) {
-            System.out.println("Entradas inválidas:" + e.getMessage());
+            System.out.println("Entrada inválida: " + e.getMessage());
         } catch (Exception ex) {
             Logger.getLogger(Ejercicio04.class.getName()).log(Level.SEVERE, "Algo no corresponde", ex);
         }
