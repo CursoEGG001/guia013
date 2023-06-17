@@ -11,7 +11,7 @@ import java.util.Random;
  * @author pc
  */
 public class Armadura {
-
+    
     private final String colorPrimario;
     private final String colorSecundario;
     private int nivelResistencia;
@@ -31,19 +31,21 @@ public class Armadura {
         this.generadorActivo = true;
         this.dispositivosDanados = new boolean[4];
     }
-
+    
     public void volar(float tiempo) {
         try {
             if (dispositivosDanados[0]) {
                 throw new DispositivoDanadoException("Las botas están dañadas. No se puede volar.");
             }
-
+            
             float consumoBotas = obtenerConsumoBotas(tiempo);
             float consumoGuantes = obtenerConsumoGuantes(tiempo);
             if (verificarDisponibilidadEnergia(consumoBotas) && verificarDisponibilidadEnergia(consumoGuantes)) {
                 // Realizar la acción de volar
                 System.out.println("Volando...");
-                dispositivosDanados[0] = ((posDanios.nextInt(100) < 30));
+                // dispositivosDanados[0] = ((posDanios.nextInt(100) < 30));
+                
+                usarDispositivo(0);
 
                 // Restar el consumo de energía
                 consumirEnergia(consumoBotas);
@@ -52,24 +54,25 @@ public class Armadura {
                 System.out.println("Nivel de batería insuficiente para volar.");
             }
         } catch (DispositivoDanadoException e) {
-            System.out.println(e.getMessage()+ "\n\t Reparación en progreso...");
+            System.out.println(e.getMessage() + "\n\t Reparación en progreso...");
             setDispositivoDanado(posDanios.nextInt(4), ((posDanios.nextInt(30, 100) < 50)));
-
+            
         }
     }
-
+    
     public void usarGuantesComoArmas(float tiempo) {
-
+        
         try {
             if (dispositivosDanados[1]) {
                 throw new DispositivoDanadoException("Los guantes están dañados. No se pueden usar como armas.");
             }
-
+            
             float consumo = obtenerConsumoGuantes(tiempo) * 3;
             if (verificarDisponibilidadEnergia(consumo)) {
                 // Realizar el ataque con los guantes
                 System.out.println("Atacando con los guantes...");
-                dispositivosDanados[1] = ((posDanios.nextInt(100) < 30));
+                // dispositivosDanados[1] = ((posDanios.nextInt(100) < 30));
+                usarDispositivo(1);
                 // Restar el consumo de energía
                 consumirEnergia(consumo);
             } else {
@@ -78,21 +81,23 @@ public class Armadura {
         } catch (DispositivoDanadoException e) {
             System.out.println(e.getMessage() + "\n\tTratando de reparar...");
             setDispositivoDanado(posDanios.nextInt(4), ((posDanios.nextInt(30, 100) < 50)));
-
+            
         }
     }
-
+    
     public void escribirEnConsola(String mensaje) {
         try {
             if (dispositivosDanados[2]) {
                 throw new DispositivoDanadoException("La consola está dañada. No se puede escribir en ella.");
             }
-
+            
             float consumo = obtenerConsumoConsola();
             if (verificarDisponibilidadEnergia(consumo)) {
                 // Realizar la acción de escribir en la consola
                 System.out.println("Escribiendo en la consola: " + mensaje);
-                dispositivosDanados[2] = ((posDanios.nextInt(100) < 30));
+                //dispositivosDanados[2] = ((posDanios.nextInt(100) < 30));
+
+                usarDispositivo(2);
                 // Restar el consumo de energía
                 consumirEnergia(consumo);
             } else {
@@ -101,21 +106,23 @@ public class Armadura {
         } catch (DispositivoDanadoException e) {
             System.out.println(e.getMessage());
             setDispositivoDanado(posDanios.nextInt(4), ((posDanios.nextInt(30, 100) < 50)));
-
+            
         }
     }
-
+    
     public void sintetizarObjeto(String objeto) {
         try {
             if (dispositivosDanados[3]) {
                 throw new DispositivoDanadoException("El sintetizador está dañado. No se puede sintetizar ningún objeto.");
             }
-
+            
             float consumo = obtenerConsumoSintetizador();
             if (verificarDisponibilidadEnergia(consumo)) {
                 // Realizar la acción de sintetizar el objeto
                 System.out.println("Sintetizando objeto: " + objeto);
-                dispositivosDanados[3] = ((posDanios.nextInt(100) < 30));
+                //dispositivosDanados[3] = ((posDanios.nextInt(100) < 30));
+                usarDispositivo(3);
+
                 // Restar el consumo de energía
                 consumirEnergia(consumo);
             } else {
@@ -123,10 +130,11 @@ public class Armadura {
             }
         } catch (DispositivoDanadoException e) {
             System.out.println(e.getMessage() + "\n\tIntentando reparar...");
-            setDispositivoDanado(posDanios.nextInt(4), ((posDanios.nextInt(30, 100) < 50)));
+            //setDispositivoDanado(posDanios.nextInt(4), ((posDanios.nextInt(30, 100) < 50)));
+            repararDispositivo(3);
         }
     }
-
+    
     public void mostrarEstado() {
         System.out.println("Estado de la armadura:");
         System.out.println("Color primario: " + colorPrimario);
@@ -135,13 +143,15 @@ public class Armadura {
         System.out.println("Nivel de salud: " + nivelSalud);
         informarEstadoBateria();
         informarEstadoReactor();
+        usarDispositivo(2);
+        revisarDispositivos();
     }
-
+    
     private void informarEstadoBateria() {
         float estadoBateria = (cargaBateria / 1000) * 100;
         System.out.println("Estado de la batería: " + estadoBateria + "%");
     }
-
+    
     public void informarEstadoReactor() {
         float cargaReactor = cargaBateria * 1000;
         float cargaReactorKilogramos = cargaReactor * 0.00002f;
@@ -150,11 +160,11 @@ public class Armadura {
         System.out.println("Carga del reactor en kilogramos: " + cargaReactorKilogramos);
         System.out.println("Carga del reactor en libras: " + cargaReactorLibras);
     }
-
+    
     private boolean verificarDisponibilidadEnergia(float consumo) {
         return (cargaBateria - consumo) >= 0;
     }
-
+    
     private void consumirEnergia(float consumo) {
         cargaBateria -= consumo;
         if (cargaBateria <= 0) {
@@ -162,31 +172,60 @@ public class Armadura {
             generadorActivo = false;
         }
     }
-
+    
     private float obtenerConsumoBotas(float tiempo) {
         return tiempo * 0.5f;
     }
-
+    
     private float obtenerConsumoGuantes(float tiempo) {
         return tiempo * 1.0f;
     }
-
+    
     private float obtenerConsumoConsola() {
         return 2.0f;
     }
-
+    
     private float obtenerConsumoSintetizador() {
         return 5.0f;
     }
-
+    
     public void setDispositivoDanado(int indice, boolean danado) {
         if (indice >= 0 && indice < dispositivosDanados.length) {
             dispositivosDanados[indice] = danado;
         }
     }
+    
+    public void usarDispositivo(int i) {
+        int probabilidad = posDanios.nextInt(100);
+        
+        if (probabilidad <= 30) {
+            this.dispositivosDanados[i] = true;
+        }
+    }
+    
+    public void repararDispositivo(int i) {
+        int probabilidad = posDanios.nextInt(100);
+        
+        if (probabilidad <= 40) {
+            this.dispositivosDanados[i] = false;
+        }
+    }
+    
+    public void revisarDispositivos() {
+        for (int i = 0; i < 4; i++) {
+            if (this.dispositivosDanados[i]) {
+                this.repararDispositivo(i);
 
+                // There is a 30% chance that the device will be destroyed when repairing it.
+                if (posDanios.nextInt(100) <= 30) {
+                    this.dispositivosDanados[i] = true;
+                }
+            }
+        }
+    }
+    
     class DispositivoDanadoException extends Exception {
-
+        
         public DispositivoDanadoException(String mensaje) {
             super(mensaje);
         }
