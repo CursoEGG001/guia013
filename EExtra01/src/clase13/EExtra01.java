@@ -17,16 +17,20 @@ public class EExtra01 {
      */
     public static void main(String[] args) {
         Armadura armadura = new Armadura("Rojo", "Oro", 80, 100, 1000);
-        armadura.mostrarEstado()  ;
-        armadura.escribirEnConsola("Inicio de servicio");
-        armadura.usarGuantesComoArmas( 1.3f);
-        armadura.volar(60.5f);
-        armadura.informarEstadoReactor();
-        armadura.setDispositivoDanado(20, true);
+
         armadura.mostrarEstado();
         for (int i = 0; i < 25; i++) {
+
+            armadura.sintetizarObjeto("Guantes");
+            armadura.escribirEnConsola("Inicio de servicio");
+            armadura.usarGuantesComoArmas(1.3f);
+            armadura.volar(60.5f);
+            armadura.sintetizarObjeto("Botas");
+            armadura.informarEstadoReactor();
+            armadura.setDispositivoDanado(2, true);
+            armadura.mostrarEstado();
             armadura.usarGuantesComoArmas((float) i);
-            
+
         }
         armadura.mostrarEstado();
     }

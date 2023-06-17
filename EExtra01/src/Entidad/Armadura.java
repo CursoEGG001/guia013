@@ -4,11 +4,14 @@
  */
 package Entidad;
 
+import java.util.Random;
+
 /**
  *
  * @author pc
  */
 public class Armadura {
+
     private final String colorPrimario;
     private final String colorSecundario;
     private int nivelResistencia;
@@ -16,6 +19,7 @@ public class Armadura {
     private float cargaBateria;
     private boolean generadorActivo;
     private boolean[] dispositivosDanados;
+    Random posDanios = new Random();
 
     // Constructor
     public Armadura(String colorPrimario, String colorSecundario, int nivelResistencia, int nivelSalud, float cargaBateria) {
@@ -39,6 +43,8 @@ public class Armadura {
             if (verificarDisponibilidadEnergia(consumoBotas) && verificarDisponibilidadEnergia(consumoGuantes)) {
                 // Realizar la acción de volar
                 System.out.println("Volando...");
+                dispositivosDanados[0] = ((posDanios.nextInt(100) < 30));
+
                 // Restar el consumo de energía
                 consumirEnergia(consumoBotas);
                 consumirEnergia(consumoGuantes);
@@ -46,11 +52,14 @@ public class Armadura {
                 System.out.println("Nivel de batería insuficiente para volar.");
             }
         } catch (DispositivoDanadoException e) {
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage()+ "\n\t Reparación en progreso...");
+            setDispositivoDanado(posDanios.nextInt(4), ((posDanios.nextInt(30, 100) < 50)));
+
         }
     }
 
     public void usarGuantesComoArmas(float tiempo) {
+
         try {
             if (dispositivosDanados[1]) {
                 throw new DispositivoDanadoException("Los guantes están dañados. No se pueden usar como armas.");
@@ -60,13 +69,16 @@ public class Armadura {
             if (verificarDisponibilidadEnergia(consumo)) {
                 // Realizar el ataque con los guantes
                 System.out.println("Atacando con los guantes...");
+                dispositivosDanados[1] = ((posDanios.nextInt(100) < 30));
                 // Restar el consumo de energía
                 consumirEnergia(consumo);
             } else {
                 System.out.println("Nivel de batería insuficiente para utilizar los guantes como armas.");
             }
         } catch (DispositivoDanadoException e) {
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage() + "\n\tTratando de reparar...");
+            setDispositivoDanado(posDanios.nextInt(4), ((posDanios.nextInt(30, 100) < 50)));
+
         }
     }
 
@@ -80,6 +92,7 @@ public class Armadura {
             if (verificarDisponibilidadEnergia(consumo)) {
                 // Realizar la acción de escribir en la consola
                 System.out.println("Escribiendo en la consola: " + mensaje);
+                dispositivosDanados[2] = ((posDanios.nextInt(100) < 30));
                 // Restar el consumo de energía
                 consumirEnergia(consumo);
             } else {
@@ -87,6 +100,8 @@ public class Armadura {
             }
         } catch (DispositivoDanadoException e) {
             System.out.println(e.getMessage());
+            setDispositivoDanado(posDanios.nextInt(4), ((posDanios.nextInt(30, 100) < 50)));
+
         }
     }
 
@@ -100,13 +115,15 @@ public class Armadura {
             if (verificarDisponibilidadEnergia(consumo)) {
                 // Realizar la acción de sintetizar el objeto
                 System.out.println("Sintetizando objeto: " + objeto);
+                dispositivosDanados[3] = ((posDanios.nextInt(100) < 30));
                 // Restar el consumo de energía
                 consumirEnergia(consumo);
             } else {
                 System.out.println("Nivel de batería insuficiente para utilizar el sintetizador.");
             }
         } catch (DispositivoDanadoException e) {
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage() + "\n\tIntentando reparar...");
+            setDispositivoDanado(posDanios.nextInt(4), ((posDanios.nextInt(30, 100) < 50)));
         }
     }
 
@@ -167,11 +184,11 @@ public class Armadura {
             dispositivosDanados[indice] = danado;
         }
     }
-}
 
-class DispositivoDanadoException extends Exception {
-    public DispositivoDanadoException(String mensaje) {
-        super(mensaje);
+    class DispositivoDanadoException extends Exception {
+
+        public DispositivoDanadoException(String mensaje) {
+            super(mensaje);
+        }
     }
 }
-
