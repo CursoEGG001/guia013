@@ -4,13 +4,15 @@
  */
 package Entidad;
 
+import Servicios.Sensores;
+import Servicios.Consola;
 import java.util.Random;
 
 /**
  *
  * @author pc
  */
-public class Armadura {
+public class Armadura extends Sensores implements Consola {
 
     private final String colorPrimario;
     private final String colorSecundario;
@@ -135,6 +137,7 @@ public class Armadura {
         }
     }
 
+    @Override
     public void mostrarEstado() {
         System.out.println("Estado de la armadura:");
         System.out.println("Color primario: " + colorPrimario);
@@ -147,11 +150,13 @@ public class Armadura {
         revisarDispositivos();
     }
 
-    private void informarEstadoBateria() {
+    @Override
+    public void informarEstadoBateria() {
         float estadoBateria = (cargaBateria / 1000) * 100;
         System.out.println("Estado de la batería: " + estadoBateria + "%");
     }
 
+    @Override
     public void informarEstadoReactor() {
         float cargaReactor = cargaBateria * 1000;
         float cargaReactorKilogramos = cargaReactor * 0.00002f;
@@ -173,21 +178,6 @@ public class Armadura {
         }
     }
 
-    private float obtenerConsumoBotas(float tiempo) {
-        return tiempo * 0.5f;
-    }
-
-    private float obtenerConsumoGuantes(float tiempo) {
-        return tiempo * 1.0f;
-    }
-
-    private float obtenerConsumoConsola() {
-        return 2.0f;
-    }
-
-    private float obtenerConsumoSintetizador() {
-        return 5.0f;
-    }
 
     public void setDispositivoDanado(int indice, boolean danado) {
         if (indice >= 0 && indice < dispositivosDanados.length) {
