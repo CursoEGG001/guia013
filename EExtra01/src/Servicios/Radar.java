@@ -17,6 +17,9 @@ public class Radar {
 
     private List<Objetivo> radar;
 
+    /**
+     * Inicializa los objetivos en el radar.
+     */
     public void cargarRadar() {
         radar = new ArrayList<>();
         Enemigo enemigos = new Enemigo();
@@ -31,6 +34,9 @@ public class Radar {
         }
     }
 
+    /**
+     * Actividad del radar que indica si debe eliminarse o no un objetivo
+     */
     public void destruyeEnemigo() {
 
         for (int i = 0; i < radar.size(); i++) {
