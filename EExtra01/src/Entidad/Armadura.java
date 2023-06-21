@@ -202,7 +202,7 @@ public class Armadura extends Sensores implements Consola {
             if (this.dispositivosDanados[i]) {
                 this.repararDispositivo(i);
 
-                // Hay un treina porciento de posibilidades de que se destruya cuando lo repara.
+                // Hay un treinta porciento de posibilidades de que se destruya cuando lo repara.
                 if (posDanios.nextInt(100) <= 30) {
                     this.dispositivosDanados[i] = true;
                 }
