@@ -20,7 +20,7 @@ public class Armadura extends Sensores implements Consola {
     private int nivelSalud;
     private float cargaBateria;
     private boolean generadorActivo;
-    private boolean[] dispositivosDanados;
+    private boolean[] dispositivosDaniados;
     Random posDanios = new Random();
 
     // Constructor
@@ -31,12 +31,12 @@ public class Armadura extends Sensores implements Consola {
         this.nivelSalud = nivelSalud;
         this.cargaBateria = cargaBateria;
         this.generadorActivo = true;
-        this.dispositivosDanados = new boolean[4];
+        this.dispositivosDaniados = new boolean[4];
     }
 
     public void volar(float tiempo) {
         try {
-            if (dispositivosDanados[0]) {
+            if (dispositivosDaniados[0]) {
                 throw new DispositivoDanadoException("Las botas están dañadas. No se puede volar.");
             }
 
@@ -45,7 +45,7 @@ public class Armadura extends Sensores implements Consola {
             if (verificarDisponibilidadEnergia(consumoBotas) && verificarDisponibilidadEnergia(consumoGuantes)) {
                 // Realizar la acción de volar
                 System.out.println("Volando...");
-                // dispositivosDanados[0] = ((posDanios.nextInt(100) < 30));
+                // dispositivosDaniados[0] = ((posDanios.nextInt(100) < 30));
 
                 usarDispositivo(0);
 
@@ -65,7 +65,7 @@ public class Armadura extends Sensores implements Consola {
     public void usarGuantesComoArmas(float tiempo) {
 
         try {
-            if (dispositivosDanados[1]) {
+            if (dispositivosDaniados[1]) {
                 throw new DispositivoDanadoException("Los guantes están dañados. No se pueden usar como armas.");
             }
 
@@ -73,7 +73,7 @@ public class Armadura extends Sensores implements Consola {
             if (verificarDisponibilidadEnergia(consumo)) {
                 // Realizar el ataque con los guantes
                 System.out.println("Atacando con los guantes...");
-                // dispositivosDanados[1] = ((posDanios.nextInt(100) < 30));
+                // dispositivosDaniados[1] = ((posDanios.nextInt(100) < 30));
                 usarDispositivo(1);
                 // Restar el consumo de energía
                 consumirEnergia(consumo);
@@ -89,7 +89,7 @@ public class Armadura extends Sensores implements Consola {
 
     public void escribirEnConsola(String mensaje) {
         try {
-            if (dispositivosDanados[2]) {
+            if (dispositivosDaniados[2]) {
                 throw new DispositivoDanadoException("La consola está dañada. No se puede escribir en ella.");
             }
 
@@ -114,7 +114,7 @@ public class Armadura extends Sensores implements Consola {
 
     public void sintetizarObjeto(String objeto) {
         try {
-            if (dispositivosDanados[3]) {
+            if (dispositivosDaniados[3]) {
                 throw new DispositivoDanadoException("El sintetizador está dañado. No se puede sintetizar ningún objeto.");
             }
 
@@ -179,32 +179,32 @@ public class Armadura extends Sensores implements Consola {
     }
 
 
-    public void setDispositivoDanado(int indice, boolean danado) {
-        if (indice >= 0 && indice < dispositivosDanados.length) {
-            dispositivosDanados[indice] = danado;
+    public void setDispositivoDanado(int indice, boolean daniado) {
+        if (indice >= 0 && indice < dispositivosDaniados.length) {
+            dispositivosDaniados[indice] = daniado;
         }
     }
 
     public void usarDispositivo(int i) {
         int probabilidad = posDanios.nextInt(100);
 
-        this.dispositivosDanados[i] = (probabilidad <= 30);
+        this.dispositivosDaniados[i] = (probabilidad <= 30);
     }
 
     public void repararDispositivo(int i) {
         int probabilidad = posDanios.nextInt(100);
         // Posibilidad de que no lo repare es del 40 por ciento.
-        this.dispositivosDanados[i] = probabilidad > 40;
+        this.dispositivosDaniados[i] = probabilidad > 40;
     }
 
     public void revisarDispositivos() {
         for (int i = 0; i < 4; i++) {
-            if (this.dispositivosDanados[i]) {
+            if (this.dispositivosDaniados[i]) {
                 this.repararDispositivo(i);
 
                 // Hay un treinta porciento de posibilidades de que se destruya cuando lo repara.
                 if (posDanios.nextInt(100) <= 30) {
-                    this.dispositivosDanados[i] = true;
+                    this.dispositivosDaniados[i] = true;
                 }
             }
         }

@@ -7,7 +7,6 @@ package Servicios;
 import Entidad.Enemigo;
 import Entidad.Objetivo;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -19,9 +18,9 @@ public class Radar {
     private List<Objetivo> radar;
 
     public void cargarRadar() {
-        radar=new ArrayList<>();
+        radar = new ArrayList<>();
         Enemigo enemigos = new Enemigo();
-        for (int i = 0; i < ((int) Math.random() * 100+10); i++) {
+        for (int i = 0; i < ((int) Math.random() * 100 + 10); i++) {
             enemigos = new Enemigo();
             int[] ubicacion = {(int) (Math.random() * 1000), (int) (Math.random() * 1000), (int) (Math.random() * 1000)};
             enemigos.setResistencia((int) (Math.random() * 100));
@@ -33,8 +32,8 @@ public class Radar {
     }
 
     public void destruyeEnemigo() {
-        
-        for (int i=0;i<radar.size();i++) {
+
+        for (int i = 0; i < radar.size(); i++) {
             if (radar.get(i) instanceof Enemigo) {
 
                 int distancia;
