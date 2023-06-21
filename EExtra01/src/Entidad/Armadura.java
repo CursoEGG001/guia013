@@ -9,7 +9,7 @@ import Servicios.Consola;
 import java.util.Random;
 
 /**
- *
+ * Ejemplo de J.A.R.V.I.S. respondiendo solicitudes.
  * @author pc
  */
 public class Armadura extends Sensores implements Consola {
@@ -24,6 +24,15 @@ public class Armadura extends Sensores implements Consola {
     Random posDanios = new Random();
 
     // Constructor
+
+    /**
+     * Clase pensada para representar los elementos y funciones disponibles en la armadura de IronMan
+     * @param colorPrimario define el color principal de la armadura.
+     * @param colorSecundario presenta el color secundario de la armadura
+     * @param nivelResistencia contiene la resistencia en Dureza Rockwell(!) de la armadura.
+     * @param nivelSalud guarda la información del estado del trupilante.
+     * @param cargaBateria permite almacenar el ultimo estado de la batería.
+     */
     public Armadura(String colorPrimario, String colorSecundario, int nivelResistencia, int nivelSalud, float cargaBateria) {
         this.colorPrimario = colorPrimario;
         this.colorSecundario = colorSecundario;
@@ -34,6 +43,10 @@ public class Armadura extends Sensores implements Consola {
         this.dispositivosDaniados = new boolean[4];
     }
 
+    /**
+     * Establece el tiempo de vuelo de la actividad de la armadura
+     * @param tiempo contiene el tiempo que debe estar activo el modo
+     */
     public void volar(float tiempo) {
         try {
             if (dispositivosDaniados[0]) {
@@ -62,6 +75,10 @@ public class Armadura extends Sensores implements Consola {
         }
     }
 
+    /**
+     * Establece el tiempo de uso de la actividad de arma de los guantes.
+     * @param tiempo contiene el tiempo que fue usado como arma el guante.
+     */
     public void usarGuantesComoArmas(float tiempo) {
 
         try {
@@ -87,6 +104,10 @@ public class Armadura extends Sensores implements Consola {
         }
     }
 
+    /**
+     * sirve para establecer que mensaje estará en el casco.
+     * @param mensaje contiene el mensaje a mostrar en el interfaz del casco
+     */
     public void escribirEnConsola(String mensaje) {
         try {
             if (dispositivosDaniados[2]) {
@@ -112,6 +133,10 @@ public class Armadura extends Sensores implements Consola {
         }
     }
 
+    /**
+     * Forma parte de una de las habilidades del traje.
+     * @param objeto es el objeto a generar por la armadura.
+     */
     public void sintetizarObjeto(String objeto) {
         try {
             if (dispositivosDaniados[3]) {
@@ -178,25 +203,40 @@ public class Armadura extends Sensores implements Consola {
         }
     }
 
-
+    /**
+     * Configura la matriz de estado de la armadura
+     * @param indice establece el elemento dañado por su índice
+     * @param daniado es el ultimo estado que tendría el dispositivo
+     */
     public void setDispositivoDanado(int indice, boolean daniado) {
         if (indice >= 0 && indice < dispositivosDaniados.length) {
             dispositivosDaniados[indice] = daniado;
         }
     }
 
+    /**
+     * Permite establecer un indicador de daño del dispositivo usado
+     * @param i
+     */
     public void usarDispositivo(int i) {
         int probabilidad = posDanios.nextInt(100);
 
         this.dispositivosDaniados[i] = (probabilidad <= 30);
     }
 
+    /**
+     * inicia la recuperación de daños del dispositivo
+     * @param i es el dispositivo en reparación.
+     */
     public void repararDispositivo(int i) {
         int probabilidad = posDanios.nextInt(100);
         // Posibilidad de que no lo repare es del 40 por ciento.
         this.dispositivosDaniados[i] = probabilidad > 40;
     }
 
+    /**
+     * Utilíza la matriz de daños para establecer los dispositivos a reparar.
+     */
     public void revisarDispositivos() {
         for (int i = 0; i < 4; i++) {
             if (this.dispositivosDaniados[i]) {

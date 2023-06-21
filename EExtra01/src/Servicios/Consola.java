@@ -10,10 +10,19 @@ package Servicios;
  */
 public interface Consola {
 
+    /**
+     * Descarga en el casco una información requerida.
+     */
     void mostrarEstado();
 
+    /**
+     *Muestra la información en el casco del estado de la batería
+     */
     void informarEstadoBateria();
 
+    /**
+     *Elemento de la Consola que muestra el estado del reactor en el casco.
+     */
     void informarEstadoReactor();
     
 }

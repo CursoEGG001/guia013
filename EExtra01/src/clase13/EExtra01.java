@@ -14,6 +14,8 @@ import Servicios.Radar;
 public class EExtra01 {
 
     /**
+     * 
+     * Simulación de Destrucción de enemigos en combate
      * @param args the command line arguments
      */
     public static void main(String[] args) {
